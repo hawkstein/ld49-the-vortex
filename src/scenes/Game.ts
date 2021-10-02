@@ -12,7 +12,7 @@ export default class Game extends Phaser.Scene {
   }
 
   init() {
-    //this.scene.launch("HUD");
+    this.scene.launch(Scenes.HUD);
   }
 
   create() {
