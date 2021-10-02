@@ -6,7 +6,6 @@ import Player from "../components/Player";
 export default class Game extends Phaser.Scene {
   public matterCollision: any;
   private player!: Player;
-  private isComplete: boolean = false;
 
   constructor() {
     super(Scenes.GAME);
@@ -58,7 +57,6 @@ export default class Game extends Phaser.Scene {
         objectB: exit,
         callback: () => {
           this.player.disableInput();
-          this.isComplete = true;
           this.cameras.main.fadeOut(1000, 0, 0, 0);
           this.cameras.main.once(
             Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
@@ -72,7 +70,23 @@ export default class Game extends Phaser.Scene {
       });
     }
 
-    this.isComplete = false;
+    const unsubscribePlayerCollide = this.matterCollision.addOnCollideStart({
+      objectA: this.player.sprite,
+      callback: ({ gameObjectB }: { gameObjectB: any }) => {
+        if (!gameObjectB || !(gameObjectB instanceof Phaser.Tilemaps.Tile))
+          return;
+
+        const tile = gameObjectB;
+
+        if (tile.properties.lethal) {
+          unsubscribePlayerCollide();
+          this.player.freeze();
+          const cam = this.cameras.main;
+          cam.fade(250, 0, 0, 0);
+          cam.once("camerafadeoutcomplete", () => this.scene.restart());
+        }
+      },
+    });
   }
 
   update(time: number, delta: number) {}

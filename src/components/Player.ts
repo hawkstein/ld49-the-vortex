@@ -153,6 +153,10 @@ export default class Player {
     this.touching.ground = false;
   }
 
+  freeze() {
+    this.sprite.setStatic(true);
+  }
+
   update() {
     if (this.destroyed || !this.enabled) return;
 
