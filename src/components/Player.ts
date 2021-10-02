@@ -134,7 +134,6 @@ export default class Player {
 
   update() {
     if (this.destroyed || !this.enabled) return;
-    //if (!this.sprite.body) return;
 
     const sprite = this.sprite;
     const velocity = sprite.body.velocity;
