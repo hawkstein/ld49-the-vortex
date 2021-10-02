@@ -4,6 +4,8 @@ import { getCurrentLevel, setCurrentLevel } from "data";
 import Player from "@components/Player";
 import Ghost from "@components/Ghost";
 
+const MAX_LEVEL = 3;
+
 export default class Game extends Phaser.Scene {
   public matterCollision: any;
   public player!: Player;
@@ -18,7 +20,7 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
-    const level = getCurrentLevel();
+    const level = Math.min(getCurrentLevel(), MAX_LEVEL);
     const map = this.make.tilemap({ key: `level_0${level}` });
     const tileset = map.addTilesetImage("tilemap");
     const layer = map.createLayer(0, tileset, 0, 0);
