@@ -1,11 +1,13 @@
 import Phaser from "phaser";
 import Scenes from "@scenes";
 import { getCurrentLevel, setCurrentLevel } from "data";
-import Player from "../components/Player";
+import Player from "@components/Player";
+import Ghost from "@components/Ghost";
 
 export default class Game extends Phaser.Scene {
   public matterCollision: any;
-  private player!: Player;
+  public player!: Player;
+  private ghosts: Ghost[] = [];
 
   constructor() {
     super(Scenes.GAME);
@@ -85,6 +87,25 @@ export default class Game extends Phaser.Scene {
           cam.fade(250, 0, 0, 0);
           cam.once("camerafadeoutcomplete", () => this.scene.restart());
         }
+      },
+    });
+
+    map.getObjectLayer("Spawn").objects.forEach((spawnObject) => {
+      const { x = 0, y = 0, width, height, type } = spawnObject;
+      if (type === "Ghost") {
+        this.ghosts.push(new Ghost(this, x, y));
+      }
+    });
+
+    const unsubscribeGhostCollide = this.matterCollision.addOnCollideStart({
+      objectA: this.player.sprite,
+      objectB: this.ghosts.map((ghost) => ghost.sensor),
+      callback: () => {
+        unsubscribeGhostCollide();
+        this.player.disableInput();
+        const cam = this.cameras.main;
+        cam.fade(250, 0, 0, 0);
+        cam.once("camerafadeoutcomplete", () => this.scene.restart());
       },
     });
   }
