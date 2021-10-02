@@ -34,21 +34,42 @@ export default class Player {
     this.scene = scene;
 
     // Create the animations we need from the player spritesheet
-    /* const anims = scene.anims;
+    const anims = scene.anims;
     anims.create({
-      key: "player-idle",
-      frames: anims.generateFrameNumbers("player", { start: 0, end: 3 }),
-      frameRate: 3,
-      repeat: -1
+      key: "idle",
+      frames: anims.generateFrameNames("atlas", {
+        prefix: "Player",
+        suffix: ".png",
+        start: 1,
+        end: 1,
+      }),
+      frameRate: 6,
+      repeat: -1,
     });
     anims.create({
-      key: "player-run",
-      frames: anims.generateFrameNumbers("player", { start: 8, end: 15 }),
-      frameRate: 12,
-      repeat: -1
-    }); */
+      key: "run",
+      frames: anims.generateFrameNames("atlas", {
+        prefix: "Player",
+        suffix: ".png",
+        start: 2,
+        end: 3,
+      }),
+      frameRate: 6,
+      repeat: -1,
+    });
+    anims.create({
+      key: "jump",
+      frames: anims.generateFrameNames("atlas", {
+        prefix: "Player",
+        suffix: ".png",
+        start: 4,
+        end: 4,
+      }),
+      frameRate: 6,
+      repeat: -1,
+    });
 
-    this.sprite = scene.matter.add.sprite(0, 0, "atlas", "Player.png");
+    this.sprite = scene.matter.add.sprite(0, 0, "atlas", "Player1.png");
 
     const { body, bodies } = this.scene.matter;
     const { width: w, height: h } = this.sprite;
@@ -187,14 +208,13 @@ export default class Player {
     }
 
     // Update the animation/texture based on the state of the player's state
-    /* if (isOnGround) {
+    if (isOnGround) {
       //@ts-ignore
-      if (sprite.body.force.x !== 0) sprite.anims.play("player-run", true);
-      else sprite.anims.play("player-idle", true);
+      if (sprite.body.force.x !== 0) sprite.anims.play("run", true);
+      else sprite.anims.play("idle", true);
     } else {
-      sprite.anims.stop();
-      sprite.setTexture("player", 10);
-    } */
+      sprite.anims.play("jump", true);
+    }
   }
 
   disableInput() {

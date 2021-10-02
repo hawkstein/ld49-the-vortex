@@ -19,7 +19,7 @@ export default class Game extends Phaser.Scene {
   create() {
     const level = getCurrentLevel();
     const map = this.make.tilemap({ key: `level_0${level}` });
-    const tileset = map.addTilesetImage("BasicTile");
+    const tileset = map.addTilesetImage("tilemap");
     const layer = map.createLayer(0, tileset, 0, 0);
 
     layer.setCollisionFromCollisionGroup();
@@ -27,13 +27,11 @@ export default class Game extends Phaser.Scene {
     this.matter.world.convertTilemapLayer(layer);
     this.matter.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     this.matter.world.createDebugGraphic();
-    this.matter.world.drawDebug = true;
+    this.matter.world.drawDebug = false;
 
     this.cameras.main.fadeIn(1000, 0, 0, 0);
 
     const playerSpawn = map.findObject("Spawn", (obj) => obj.name === "Player");
-
-    this.player = new Player(this, playerSpawn?.x ?? 0, playerSpawn?.y ?? 0);
 
     const exitSpawn = map.findObject("Spawn", (obj) => obj.name === "Exit");
 
@@ -49,6 +47,12 @@ export default class Game extends Phaser.Scene {
           isStatic: true,
         }
       );
+
+      this.player = new Player(this, playerSpawn?.x ?? 0, playerSpawn?.y ?? 0);
+
+      this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+      this.cameras.main.startFollow(this.player.sprite, false, 0.5, 0.5);
+
       const unsubscribe = this.matterCollision.addOnCollideStart({
         objectA: [this.player.sprite],
         objectB: exit,
@@ -67,9 +71,6 @@ export default class Game extends Phaser.Scene {
         },
       });
     }
-
-    this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-    this.cameras.main.startFollow(this.player.sprite, false, 0.5, 0.5);
 
     this.isComplete = false;
   }

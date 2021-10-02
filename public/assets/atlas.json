@@ -4,8 +4,8 @@
 			"image": "atlas.png",
 			"format": "RGBA8888",
 			"size": {
-				"w": 91,
-				"h": 63
+				"w": 61,
+				"h": 129
 			},
 			"scale": 1,
 			"frames": [
@@ -31,7 +31,7 @@
 					}
 				},
 				{
-					"filename": "Player.png",
+					"filename": "Player1.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -45,8 +45,71 @@
 						"h": 31
 					},
 					"frame": {
-						"x": 62,
+						"x": 1,
+						"y": 64,
+						"w": 28,
+						"h": 31
+					}
+				},
+				{
+					"filename": "Player2.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 2,
 						"y": 1,
+						"w": 28,
+						"h": 31
+					},
+					"frame": {
+						"x": 31,
+						"y": 64,
+						"w": 28,
+						"h": 31
+					}
+				},
+				{
+					"filename": "Player3.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 2,
+						"y": 1,
+						"w": 28,
+						"h": 31
+					},
+					"frame": {
+						"x": 1,
+						"y": 97,
+						"w": 28,
+						"h": 31
+					}
+				},
+				{
+					"filename": "Player4.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 2,
+						"y": 1,
+						"w": 28,
+						"h": 31
+					},
+					"frame": {
+						"x": 31,
+						"y": 97,
 						"w": 28,
 						"h": 31
 					}
@@ -57,6 +120,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:6a420983694d0310240899eb97a46400:857428b45740b87d8a028ef390ca78d8:cbce6b53f0f49e0bf15173c25c41f876$"
+		"smartupdate": "$TexturePacker:SmartUpdate:e91eed13c99b404d12834beb66dd6aec:0e57f2eccf707a1235963f58e8bad2a1:cbce6b53f0f49e0bf15173c25c41f876$"
 	}
 }
