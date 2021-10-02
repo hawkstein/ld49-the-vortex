@@ -1,6 +1,6 @@
 {
   "name": "ludum-dare-49",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Ludum Dare 49 Compo Game",
   "main": "dist/index.js",
   "scripts": {
