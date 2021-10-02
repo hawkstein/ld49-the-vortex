@@ -8,5 +8,9 @@ export default class LevelComplete extends Phaser.Scene {
 
   create() {
     this.add.text(20, 20, "Click to go to next level", { color: "#000" });
+
+    this.input.on("pointerdown", () => {
+      this.scene.start(Scenes.GAME);
+    });
   }
 }

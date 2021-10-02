@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import Scenes from "@scenes";
+import { getCurrentLevel, setCurrentLevel } from "data";
 
 export default class Game extends Phaser.Scene {
   private player: any;
@@ -16,7 +17,8 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
-    const map = this.make.tilemap({ key: "level_01" });
+    const level = getCurrentLevel();
+    const map = this.make.tilemap({ key: `level_0${level}` });
     const tileset = map.addTilesetImage("BasicTile");
     const layer = map.createLayer(0, tileset, 0, 0);
 
@@ -192,6 +194,7 @@ export default class Game extends Phaser.Scene {
     }
 
     if (this.player.matterSprite.y > 900) {
+      setCurrentLevel(2);
       this.scene.start(Scenes.LEVEL_COMPLETE);
     }
   }

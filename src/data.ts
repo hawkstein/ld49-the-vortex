@@ -6,6 +6,7 @@ type GameData = {
   progress: {
     level: number;
   };
+  currentLevel: number;
 };
 
 const store: GameData = {
@@ -14,6 +15,7 @@ const store: GameData = {
   progress: {
     level: 0,
   },
+  currentLevel: 1,
 };
 
 async function saveGameData() {
@@ -53,4 +55,20 @@ function getStore() {
   return store;
 }
 
-export { saveGameData, loadGameData, getStore, getFlag, setFlag };
+function getCurrentLevel() {
+  return store.currentLevel;
+}
+
+function setCurrentLevel(level: number) {
+  store.currentLevel = level;
+}
+
+export {
+  saveGameData,
+  loadGameData,
+  getStore,
+  getFlag,
+  setFlag,
+  getCurrentLevel,
+  setCurrentLevel,
+};

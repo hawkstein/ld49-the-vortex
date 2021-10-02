@@ -13,6 +13,11 @@
         "url": "levels/level_01.json"
       },
       {
+        "type": "tilemapTiledJSON",
+        "key": "level_02",
+        "url": "levels/level_02.json"
+      },
+      {
         "type": "image",
         "key": "BasicTile",
         "url": "assets/BasicTile.png"
