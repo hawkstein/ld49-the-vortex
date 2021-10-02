@@ -4,11 +4,32 @@
 			"image": "atlas.png",
 			"format": "RGBA8888",
 			"size": {
-				"w": 30,
-				"h": 33
+				"w": 91,
+				"h": 63
 			},
 			"scale": 1,
 			"frames": [
+				{
+					"filename": "Exit.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 64,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 3,
+						"y": 3,
+						"w": 59,
+						"h": 61
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 59,
+						"h": 61
+					}
+				},
 				{
 					"filename": "Player.png",
 					"rotated": false,
@@ -24,7 +45,7 @@
 						"h": 31
 					},
 					"frame": {
-						"x": 1,
+						"x": 62,
 						"y": 1,
 						"w": 28,
 						"h": 31
@@ -36,6 +57,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:a5d1a3b6af38e3a97de661705520d3b2:9b9266371dcf6118a2e59d1bfd62163b:cbce6b53f0f49e0bf15173c25c41f876$"
+		"smartupdate": "$TexturePacker:SmartUpdate:6a420983694d0310240899eb97a46400:857428b45740b87d8a028ef390ca78d8:cbce6b53f0f49e0bf15173c25c41f876$"
 	}
 }

@@ -24,6 +24,7 @@ export default class Player {
   private rightInput: MultiKey;
   private jumpInput: MultiKey;
   private destroyed: boolean = false;
+  private enabled: boolean = true;
 
   constructor(
     scene: Phaser.Scene & { matterCollision: any },
@@ -132,7 +133,7 @@ export default class Player {
   }
 
   update() {
-    if (this.destroyed) return;
+    if (this.destroyed || !this.enabled) return;
     //if (!this.sprite.body) return;
 
     const sprite = this.sprite;
@@ -195,6 +196,10 @@ export default class Player {
       sprite.anims.stop();
       sprite.setTexture("player", 10);
     } */
+  }
+
+  disableInput() {
+    this.enabled = false;
   }
 
   destroy() {

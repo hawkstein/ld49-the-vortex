@@ -4,10 +4,10 @@ import PhaserMatterCollisionPlugin from "phaser-matter-collision-plugin";
 export default {
   type: Phaser.AUTO,
   parent: "game",
-  backgroundColor: "#33A5E7",
+  backgroundColor: "#231e51",
   scale: {
-    width: 600,
-    height: 400,
+    width: 960,
+    height: 540,
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
