@@ -29,6 +29,7 @@
     "vite-tsconfig-paths": "^3.3.14"
   },
   "dependencies": {
-    "localforage": "^1.10.0"
+    "localforage": "^1.10.0",
+    "phaser-matter-collision-plugin": "^1.0.0"
   }
 }

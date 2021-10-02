@@ -3,7 +3,8 @@
     "baseUrl": "./src",
     "paths": {
       "@scenes": ["./scenes"],
-      "@scenes/*": ["./scenes/*"]
+      "@scenes/*": ["./scenes/*"],
+      "@utils/*": ["./utils/*"]
     },
     "target": "ESNext",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],

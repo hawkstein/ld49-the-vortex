@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import PhaserMatterCollisionPlugin from "phaser-matter-collision-plugin";
 
 export default {
   type: Phaser.AUTO,
@@ -17,5 +18,14 @@ export default {
       gravity: { y: 1 },
       debug: true,
     },
+  },
+  plugins: {
+    scene: [
+      {
+        plugin: PhaserMatterCollisionPlugin,
+        key: "matterCollision",
+        mapping: "matterCollision",
+      },
+    ],
   },
 };
