@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
+      "@scenes": ["./scenes"],
       "@scenes/*": ["./scenes/*"]
     },
     "target": "ESNext",
