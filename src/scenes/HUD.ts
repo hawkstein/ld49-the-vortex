@@ -1,9 +1,9 @@
 import Phaser from "phaser";
+import Scenes from "@scenes";
 
 export default class HUD extends Phaser.Scene {
   constructor() {
-    super("HUD");
-    console.log("HUD!");
+    super(Scenes.HUD);
   }
 
   init() {}
@@ -12,11 +12,10 @@ export default class HUD extends Phaser.Scene {
 
   create() {
     this.input.keyboard.on("keydown-P", () => {
-      console.log("P");
-      if (this.scene.isPaused("GameScene")) {
-        this.scene.resume("GameScene");
+      if (this.scene.isPaused(Scenes.GAME)) {
+        this.scene.resume(Scenes.GAME);
       } else {
-        this.scene.pause("GameScene");
+        this.scene.pause(Scenes.GAME);
       }
     });
   }

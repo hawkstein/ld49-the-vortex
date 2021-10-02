@@ -6,6 +6,16 @@
         "key": "atlas",
         "textureURL": "assets/atlas.png",
         "atlasURL": "assets/atlas.json"
+      },
+      {
+        "type": "tilemapTiledJSON",
+        "key": "level_01",
+        "url": "levels/level_01.json"
+      },
+      {
+        "type": "image",
+        "key": "BasicTile",
+        "url": "assets/BasicTile.png"
       }
     ]
   }
