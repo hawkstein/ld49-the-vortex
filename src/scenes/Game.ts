@@ -181,7 +181,8 @@ export default class Game extends Phaser.Scene {
         if (sensorSwitch) {
           const properties = sensorSwitch.properties;
           this.switches[properties.vortex] = true;
-          map.putTileAt(5, properties.switchX, properties.switchY);
+          const tile = map.getTileAt(properties.switchX, properties.switchY);
+          map.putTileAt(25, properties.switchX, properties.switchY);
           const vortex = this.vortexes.get(`Vortex_0${properties.vortex}`);
           vortex?.explode();
           playSound(this.switchBeep);
