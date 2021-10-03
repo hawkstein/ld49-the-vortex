@@ -26,6 +26,8 @@ export default class Game extends Phaser.Scene {
   private vortexes: Map<string, Vortex> = new Map();
   private isFinalLevel: boolean = false;
   private isGameComplete: boolean = false;
+  public ghostDeathSounds: Phaser.Sound.BaseSound[] = [];
+  public spikeDeathSounds: Phaser.Sound.BaseSound[] = [];
 
   constructor() {
     super(Scenes.GAME);
@@ -47,6 +49,16 @@ export default class Game extends Phaser.Scene {
     this.matter.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     this.matter.world.createDebugGraphic();
     this.matter.world.drawDebug = false;
+
+    this.ghostDeathSounds = [
+      this.sound.add("ghost_death_01", { volume: 0.2 }),
+      this.sound.add("ghost_death_02", { volume: 0.2 }),
+    ];
+    this.spikeDeathSounds = [
+      this.sound.add("spike_death_01", { volume: 0.4 }),
+      this.sound.add("spike_death_02", { volume: 0.4 }),
+      this.sound.add("spike_death_03", { volume: 0.4 }),
+    ];
 
     this.cameras.main.fadeIn(1000, 0, 0, 0);
 
@@ -103,6 +115,7 @@ export default class Game extends Phaser.Scene {
         if (tile.properties.lethal) {
           unsubscribePlayerCollide();
           this.player.freeze();
+          Phaser.Math.RND.pick(this.spikeDeathSounds).play();
           const cam = this.cameras.main;
           cam.fade(250, 0, 0, 0);
           cam.once("camerafadeoutcomplete", () => this.scene.restart());
@@ -177,6 +190,7 @@ export default class Game extends Phaser.Scene {
       callback: () => {
         unsubscribeGhostCollide();
         this.player.disableInput();
+        Phaser.Math.RND.pick(this.ghostDeathSounds).play();
         const cam = this.cameras.main;
         cam.fade(250, 0, 0, 0);
         cam.once("camerafadeoutcomplete", () => this.scene.restart());

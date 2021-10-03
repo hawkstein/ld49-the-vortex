@@ -31,6 +31,7 @@ export default class Player {
   private jumpInput: MultiKey;
   private destroyed: boolean = false;
   private enabled: boolean = true;
+  private jumpSounds: Phaser.Sound.BaseSound[];
 
   constructor(
     scene: Phaser.Scene & { matterCollision: any },
@@ -74,6 +75,12 @@ export default class Player {
       frameRate: 6,
       repeat: -1,
     });
+
+    this.jumpSounds = [
+      this.scene.sound.add("hup_01", { volume: 0.4 }),
+      this.scene.sound.add("hup_02", { volume: 0.8 }),
+      this.scene.sound.add("hup_03", { volume: 0.4 }),
+    ];
 
     this.sprite = scene.matter.add.sprite(0, 0, "atlas", "Player1.png");
 
@@ -255,6 +262,7 @@ export default class Player {
         delay: 250,
         callback: () => (this.canJump = true),
       });
+      Phaser.Math.RND.pick(this.jumpSounds).play();
     }
 
     // Update the animation/texture based on the state of the player's state

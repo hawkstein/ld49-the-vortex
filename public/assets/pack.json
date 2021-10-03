@@ -41,6 +41,46 @@
         "type": "image",
         "key": "tilemap",
         "url": "assets/tilemap.png"
+      },
+      {
+        "type": "audio",
+        "key": "hup_01",
+        "url": "assets/audio/hup_01.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "hup_02",
+        "url": "assets/audio/hup_02.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "hup_03",
+        "url": "assets/audio/hup_03.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "spike_death_01",
+        "url": "assets/audio/spike_death_01.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "spike_death_02",
+        "url": "assets/audio/spike_death_02.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "spike_death_03",
+        "url": "assets/audio/spike_death_03.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "ghost_death_01",
+        "url": "assets/audio/ghost_death_01.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "ghost_death_02",
+        "url": "assets/audio/ghost_death_02.mp3"
       }
     ]
   }
