@@ -4,6 +4,7 @@ import { getCurrentLevel, setCurrentLevel } from "data";
 import Player from "@components/Player";
 import Ghost from "@components/Ghost";
 import Vortex from "@components/Vortex";
+import MegaGhostSpawner from "@components/MegaChostSpawner";
 
 const MAX_LEVEL = 6;
 const SPAWN = "Spawn";
@@ -191,6 +192,12 @@ export default class Game extends Phaser.Scene {
         color: "#000000",
       });
       help.setScrollFactor(0).setDepth(1000);
+      this.tweens.add({
+        targets: [help],
+        alpha: 0,
+        duration: 1000,
+        delay: 5000,
+      });
     }
 
     const megaVortex = map.findObject(
@@ -198,11 +205,43 @@ export default class Game extends Phaser.Scene {
       (obj) => obj.name === "MegaVortex"
     );
     if (megaVortex) {
-      console.log("MEGA VORTEX!");
-      // add MegaVortex
-      // Which spawns MegaGhosts
-      // add victory check
+      const { x = 0, y = 0, width = 100 } = megaVortex;
+      const mv = this.matter.add.sprite(
+        x + width / 2,
+        y + width / 2,
+        "atlas",
+        "MegaVortex.png",
+        {
+          isStatic: true,
+          isSensor: true,
+        }
+      );
+
+      const particles = this.add.particles("atlas");
+      const circle = new Phaser.Geom.Circle(0, 0, width / 2);
+      const emitter = particles.createEmitter({
+        frame: "VortexParticle.png",
+        lifespan: 1000,
+        scale: { start: 1.0, end: 0 },
+        emitZone: { type: "edge", source: circle, quantity: 20 },
+      });
+
+      emitter.setPosition(mv.x, mv.y);
+      emitter.setSpeed(100);
+
+      const secondEmitter = particles.createEmitter({
+        frame: "VortexParticle.png",
+        lifespan: 1000,
+        scale: { start: 1.0, end: 0 },
+        emitZone: { type: "random", source: circle, quantity: 20 },
+      });
+
+      secondEmitter.setPosition(mv.x, mv.y);
+      secondEmitter.setSpeed(100);
+
       this.isFinalLevel = true;
+
+      const megaSpawner = new MegaGhostSpawner(this, mv.x, mv.y);
     }
   }
 

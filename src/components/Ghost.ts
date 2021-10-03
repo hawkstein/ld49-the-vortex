@@ -28,12 +28,6 @@ export default class Ghost {
         if (
           Phaser.Math.Distance.Between(x, y, this.sprite.x, this.sprite.y) < 400
         ) {
-          /*this.scene.tweens.add({
-            targets: this.sprite,
-            x,
-            y,
-            duration: 2000,
-          });*/
           const difference = new Phaser.Math.Vector2(
             x - this.sprite.x,
             y - this.sprite.y
