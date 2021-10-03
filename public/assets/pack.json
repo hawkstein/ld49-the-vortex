@@ -86,6 +86,11 @@
         "type": "audio",
         "key": "ghost_alert_01",
         "url": "assets/audio/ghost_alert_01.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "switch_beep",
+        "url": "assets/audio/switch_beep.mp3"
       }
     ]
   }

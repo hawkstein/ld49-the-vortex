@@ -28,6 +28,7 @@ export default class Game extends Phaser.Scene {
   private isGameComplete: boolean = false;
   public ghostDeathSounds: Phaser.Sound.BaseSound[] = [];
   public spikeDeathSounds: Phaser.Sound.BaseSound[] = [];
+  private switchBeep!: Phaser.Sound.BaseSound;
 
   constructor() {
     super(Scenes.GAME);
@@ -35,6 +36,7 @@ export default class Game extends Phaser.Scene {
 
   init() {
     this.scene.launch(Scenes.HUD);
+    this.switchBeep = this.sound.add("switch_beep", { volume: 0.3 });
   }
 
   create() {
@@ -180,6 +182,7 @@ export default class Game extends Phaser.Scene {
           map.putTileAt(5, properties.switchX, properties.switchY);
           const vortex = this.vortexes.get(`Vortex_0${properties.vortex}`);
           vortex?.explode();
+          this.switchBeep.play();
         }
       },
     });
