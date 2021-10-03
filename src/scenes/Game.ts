@@ -10,12 +10,12 @@ const MAX_LEVEL = 6;
 const SPAWN = "Spawn";
 
 const levelHelp = [
-  "Arrows/WASD to move the player. Wall jump to get higher.",
+  "Arrows/WASD to move the player.\nWall jump to get higher.\nP to pause/options",
   "Watch out for spikes!",
-  "Avoid ghosts and rifts too!",
+  "Avoid ghosts!",
   "Head to the top.",
-  "Switches close rifts",
-  "Close all the switches!",
+  "Use a switch to close a vortex.",
+  "Use all the switches!",
 ];
 
 export default class Game extends Phaser.Scene {

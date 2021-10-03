@@ -91,6 +91,11 @@
         "type": "audio",
         "key": "switch_beep",
         "url": "assets/audio/switch_beep.mp3"
+      },
+      {
+        "type": "image",
+        "key": "title_graphic",
+        "url": "assets/TitleGraphic.png"
       }
     ]
   }
