@@ -4,7 +4,8 @@ import { getCurrentLevel, setCurrentLevel } from "data";
 import Player from "@components/Player";
 import Ghost from "@components/Ghost";
 
-const MAX_LEVEL = 3;
+const MAX_LEVEL = 4;
+const SPAWN = "Spawn";
 
 export default class Game extends Phaser.Scene {
   public matterCollision: any;
@@ -34,9 +35,9 @@ export default class Game extends Phaser.Scene {
 
     this.cameras.main.fadeIn(1000, 0, 0, 0);
 
-    const playerSpawn = map.findObject("Spawn", (obj) => obj.name === "Player");
+    const playerSpawn = map.findObject(SPAWN, (obj) => obj.name === "Player");
 
-    const exitSpawn = map.findObject("Spawn", (obj) => obj.name === "Exit");
+    const exitSpawn = map.findObject(SPAWN, (obj) => obj.name === "Exit");
 
     if (exitSpawn) {
       const { x = 0, y = 0, width = 0, height = 0 } = exitSpawn;
@@ -92,7 +93,7 @@ export default class Game extends Phaser.Scene {
       },
     });
 
-    map.getObjectLayer("Spawn").objects.forEach((spawnObject) => {
+    map.getObjectLayer(SPAWN).objects.forEach((spawnObject) => {
       const { x = 0, y = 0, width, height, type } = spawnObject;
       if (type === "Ghost") {
         this.ghosts.push(new Ghost(this, x, y));
