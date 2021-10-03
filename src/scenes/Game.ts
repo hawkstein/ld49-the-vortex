@@ -5,8 +5,17 @@ import Player from "@components/Player";
 import Ghost from "@components/Ghost";
 import Vortex from "@components/Vortex";
 
-const MAX_LEVEL = 5;
+const MAX_LEVEL = 6;
 const SPAWN = "Spawn";
+
+const levelHelp = [
+  "Arrows/WASD to move the player.",
+  "Watch out for spikes!",
+  "Avoid ghosts and rifts too!",
+  "Head to the top.",
+  "Switches close rifts",
+  "Close all the switches!",
+];
 
 export default class Game extends Phaser.Scene {
   public matterCollision: any;
@@ -14,6 +23,8 @@ export default class Game extends Phaser.Scene {
   private ghosts: Ghost[] = [];
   private switches: boolean[] = [];
   private vortexes: Map<string, Vortex> = new Map();
+  private isFinalLevel: boolean = false;
+  private isGameComplete: boolean = false;
 
   constructor() {
     super(Scenes.GAME);
@@ -41,10 +52,10 @@ export default class Game extends Phaser.Scene {
     const playerSpawn = map.findObject(SPAWN, (obj) => obj.name === "Player");
 
     const exitSpawn = map.findObject(SPAWN, (obj) => obj.name === "Exit");
-
+    let exit = null;
     if (exitSpawn) {
       const { x = 0, y = 0, width = 0, height = 0 } = exitSpawn;
-      const exit = this.matter.add.sprite(
+      exit = this.matter.add.sprite(
         x + width / 2,
         y + height / 2,
         "atlas",
@@ -54,12 +65,14 @@ export default class Game extends Phaser.Scene {
           isStatic: true,
         }
       );
+    }
 
-      this.player = new Player(this, playerSpawn?.x ?? 0, playerSpawn?.y ?? 0);
+    this.player = new Player(this, playerSpawn?.x ?? 0, playerSpawn?.y ?? 0);
 
-      this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-      this.cameras.main.startFollow(this.player.sprite, false, 0.5, 0.5);
+    this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    this.cameras.main.startFollow(this.player.sprite, false, 0.5, 0.5);
 
+    if (exitSpawn) {
       const unsubscribe = this.matterCollision.addOnCollideStart({
         objectA: [this.player.sprite],
         objectB: exit,
@@ -124,7 +137,7 @@ export default class Game extends Phaser.Scene {
         switchY: number;
       };
     }[] = [];
-    map.getObjectLayer("Switches").objects.forEach((switchObject) => {
+    map.getObjectLayer("Switches")?.objects.forEach((switchObject) => {
       const { x = 0, y = 0, width = 100, properties } = switchObject;
       const switchSensor = this.matter.add.circle(x, y, width, {
         isSensor: true,
@@ -168,7 +181,40 @@ export default class Game extends Phaser.Scene {
         cam.once("camerafadeoutcomplete", () => this.scene.restart());
       },
     });
+
+    const helpMessage = levelHelp[level - 1];
+    if (helpMessage) {
+      const help = this.add.text(16, 16, helpMessage, {
+        fontSize: "18px",
+        padding: { x: 10, y: 5 },
+        backgroundColor: "#ffffff",
+        color: "#000000",
+      });
+      help.setScrollFactor(0).setDepth(1000);
+    }
+
+    const megaVortex = map.findObject(
+      SPAWN,
+      (obj) => obj.name === "MegaVortex"
+    );
+    if (megaVortex) {
+      console.log("MEGA VORTEX!");
+      // add MegaVortex
+      // Which spawns MegaGhosts
+      // add victory check
+      this.isFinalLevel = true;
+    }
   }
 
-  update(time: number, delta: number) {}
+  update(time: number, delta: number) {
+    if (this.isFinalLevel && !this.isGameComplete) {
+      if (this.switches.every((s) => s)) {
+        this.isGameComplete = true;
+        const cam = this.cameras.main;
+        this.player.disableInput();
+        cam.fade(500, 255, 255, 255);
+        cam.once("camerafadeoutcomplete", () => this.scene.start(Scenes.END));
+      }
+    }
+  }
 }

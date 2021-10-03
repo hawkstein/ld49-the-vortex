@@ -15,7 +15,7 @@ const store: GameData = {
   progress: {
     level: 0,
   },
-  currentLevel: 5,
+  currentLevel: 6,
 };
 
 async function saveGameData() {
