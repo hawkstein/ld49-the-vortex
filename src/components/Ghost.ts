@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-
+import { playSound } from "@utils/Sounds";
 export default class Ghost {
   private scene: Phaser.Scene & { matterCollision: any; player: any };
   public sprite: Phaser.GameObjects.Sprite;
@@ -35,7 +35,7 @@ export default class Ghost {
           Phaser.Math.Distance.Between(x, y, this.sprite.x, this.sprite.y) < 400
         ) {
           if (!this.hasPlayedAlert) {
-            Phaser.Math.RND.pick(this.alertSounds).play();
+            playSound(Phaser.Math.RND.pick(this.alertSounds));
             this.hasPlayedAlert = true;
           }
           const difference = new Phaser.Math.Vector2(

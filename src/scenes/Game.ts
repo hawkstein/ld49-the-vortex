@@ -1,10 +1,11 @@
 import Phaser from "phaser";
 import Scenes from "@scenes";
-import { getCurrentLevel, setCurrentLevel } from "data";
+import { getCurrentLevel, setCurrentLevel, getOption } from "data";
 import Player from "@components/Player";
 import Ghost from "@components/Ghost";
 import Vortex from "@components/Vortex";
 import MegaGhostSpawner from "@components/MegaChostSpawner";
+import { playSound } from "@utils/Sounds";
 
 const MAX_LEVEL = 6;
 const SPAWN = "Spawn";
@@ -98,6 +99,7 @@ export default class Game extends Phaser.Scene {
             Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
             () => {
               setCurrentLevel(getCurrentLevel() + 1);
+              this.scene.stop(Scenes.HUD);
               this.scene.start(Scenes.LEVEL_COMPLETE);
             }
           );
@@ -117,7 +119,7 @@ export default class Game extends Phaser.Scene {
         if (tile.properties.lethal) {
           unsubscribePlayerCollide();
           this.player.freeze();
-          Phaser.Math.RND.pick(this.spikeDeathSounds).play();
+          playSound(Phaser.Math.RND.pick(this.spikeDeathSounds));
           const cam = this.cameras.main;
           cam.fade(250, 0, 0, 0);
           cam.once("camerafadeoutcomplete", () => this.scene.restart());
@@ -182,7 +184,7 @@ export default class Game extends Phaser.Scene {
           map.putTileAt(5, properties.switchX, properties.switchY);
           const vortex = this.vortexes.get(`Vortex_0${properties.vortex}`);
           vortex?.explode();
-          this.switchBeep.play();
+          playSound(this.switchBeep);
         }
       },
     });
@@ -193,7 +195,7 @@ export default class Game extends Phaser.Scene {
       callback: () => {
         unsubscribeGhostCollide();
         this.player.disableInput();
-        Phaser.Math.RND.pick(this.ghostDeathSounds).play();
+        playSound(Phaser.Math.RND.pick(this.ghostDeathSounds));
         const cam = this.cameras.main;
         cam.fade(250, 0, 0, 0);
         cam.once("camerafadeoutcomplete", () => this.scene.restart());

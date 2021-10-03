@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { playSound } from "@utils/Sounds";
 
 export default class MegaGhost {
   private scene: Phaser.Scene & {
@@ -46,7 +47,7 @@ export default class MegaGhost {
         callback: () => {
           unsubscribeGhostCollide();
           this.scene.player.disableInput();
-          Phaser.Math.RND.pick(this.scene.ghostDeathSounds).play();
+          playSound(Phaser.Math.RND.pick(this.scene.ghostDeathSounds));
           const cam = this.scene.cameras.main;
           cam.fade(250, 0, 0, 0);
           cam.once("camerafadeoutcomplete", () => this.scene.scene.restart());

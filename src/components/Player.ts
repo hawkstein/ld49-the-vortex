@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import MultiKey from "@utils/MultiKey";
+import { playSound } from "@utils/Sounds";
 
 type Sensors = {
   bottom: MatterJS.BodyType;
@@ -262,7 +263,7 @@ export default class Player {
         delay: 250,
         callback: () => (this.canJump = true),
       });
-      Phaser.Math.RND.pick(this.jumpSounds).play();
+      playSound(Phaser.Math.RND.pick(this.jumpSounds));
     }
 
     // Update the animation/texture based on the state of the player's state

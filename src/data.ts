@@ -18,6 +18,8 @@ const store: GameData = {
   currentLevel: 1,
 };
 
+store.options.set("sfx", true);
+
 async function saveGameData() {
   localforage.config({
     name: "ld-49-unstable",
@@ -51,6 +53,14 @@ function setFlag(key: string, value: boolean) {
   store.flags.set(key, value);
 }
 
+function getOption(key: string) {
+  return store.options.get(key);
+}
+
+function setOption(key: string, value: boolean) {
+  store.options.set(key, value);
+}
+
 function getStore() {
   return store;
 }
@@ -69,6 +79,8 @@ export {
   getStore,
   getFlag,
   setFlag,
+  getOption,
+  setOption,
   getCurrentLevel,
   setCurrentLevel,
 };
