@@ -10,7 +10,7 @@ const MAX_LEVEL = 6;
 const SPAWN = "Spawn";
 
 const levelHelp = [
-  "Arrows/WASD to move the player.",
+  "Arrows/WASD to move the player. Wall jump to get higher.",
   "Watch out for spikes!",
   "Avoid ghosts and rifts too!",
   "Head to the top.",
