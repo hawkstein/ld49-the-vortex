@@ -5,12 +5,16 @@ type Sensors = {
   bottom: MatterJS.BodyType;
   left: MatterJS.BodyType;
   right: MatterJS.BodyType;
+  wallLeft: MatterJS.BodyType;
+  wallRight: MatterJS.BodyType;
 };
 
 type Touching = {
   ground: boolean;
   left: boolean;
   right: boolean;
+  wallLeft: boolean;
+  wallRight: boolean;
 };
 
 export default class Player {
@@ -20,6 +24,8 @@ export default class Player {
   private touching: Touching;
   private canJump: boolean;
   private jumpTimer: Phaser.Time.TimerEvent | null;
+  private canMove: boolean;
+  private moveTimer: Phaser.Time.TimerEvent | null;
   private leftInput: MultiKey;
   private rightInput: MultiKey;
   private jumpInput: MultiKey;
@@ -78,9 +84,11 @@ export default class Player {
     });
 
     this.sensors = {
-      bottom: bodies.rectangle(0, h * 0.5, w * 0.25, 2, { isSensor: true }),
+      bottom: bodies.rectangle(0, h * 0.5, w * 0.25, 3, { isSensor: true }),
       left: bodies.rectangle(-w * 0.35, 0, 2, h * 0.5, { isSensor: true }),
       right: bodies.rectangle(w * 0.35, 0, 2, h * 0.5, { isSensor: true }),
+      wallLeft: bodies.rectangle(-w * 0.5, 0, 2, h * 0.5, { isSensor: true }),
+      wallRight: bodies.rectangle(w * 0.5, 0, 2, h * 0.5, { isSensor: true }),
     };
     const compoundBody = body.create({
       parts: [
@@ -88,6 +96,8 @@ export default class Player {
         this.sensors.bottom,
         this.sensors.left,
         this.sensors.right,
+        this.sensors.wallLeft,
+        this.sensors.wallRight,
       ],
       frictionStatic: 0,
       frictionAir: 0.04,
@@ -98,20 +108,40 @@ export default class Player {
     this.sprite.setFixedRotation();
     this.sprite.setPosition(x, y);
 
-    this.touching = { left: false, right: false, ground: false };
+    this.touching = {
+      left: false,
+      right: false,
+      ground: false,
+      wallLeft: false,
+      wallRight: false,
+    };
 
     this.canJump = true;
     this.jumpTimer = null;
+    this.canMove = true;
+    this.moveTimer = null;
 
     scene.matter.world.on("beforeupdate", this.resetTouching, this);
 
     scene.matterCollision.addOnCollideStart({
-      objectA: [this.sensors.bottom, this.sensors.left, this.sensors.right],
+      objectA: [
+        this.sensors.bottom,
+        this.sensors.left,
+        this.sensors.right,
+        this.sensors.wallLeft,
+        this.sensors.wallRight,
+      ],
       callback: this.onSensorCollide,
       context: this,
     });
     scene.matterCollision.addOnCollideActive({
-      objectA: [this.sensors.bottom, this.sensors.left, this.sensors.right],
+      objectA: [
+        this.sensors.bottom,
+        this.sensors.left,
+        this.sensors.right,
+        this.sensors.wallLeft,
+        this.sensors.wallRight,
+      ],
       callback: this.onSensorCollide,
       context: this,
     });
@@ -144,6 +174,10 @@ export default class Player {
       if (pair.separation > 0.5) this.sprite.x -= pair.separation - 0.5;
     } else if (bodyA === this.sensors.bottom) {
       this.touching.ground = true;
+    } else if (bodyA === this.sensors.wallLeft) {
+      this.touching.wallLeft = true;
+    } else if (bodyA === this.sensors.wallRight) {
+      this.touching.wallRight = true;
     }
   }
 
@@ -151,6 +185,8 @@ export default class Player {
     this.touching.left = false;
     this.touching.right = false;
     this.touching.ground = false;
+    this.touching.wallLeft = false;
+    this.touching.wallRight = false;
   }
 
   freeze() {
@@ -166,22 +202,32 @@ export default class Player {
     const isLeftKeyDown = this.leftInput.isDown();
     const isJumpKeyDown = this.jumpInput.isDown();
     const isOnGround = this.touching.ground;
+    const isOnWall = this.touching.wallLeft || this.touching.wallRight;
     const isInAir = !isOnGround;
 
     // Horizontal Movement
 
     // Adjust the movement so that the player is slower in the air
     const moveForce = isOnGround ? 0.005 : 0.0025;
-
-    if (isLeftKeyDown) {
-      sprite.setFlipX(true);
-      if (!(isInAir && this.touching.left)) {
-        sprite.applyForce(new Phaser.Math.Vector2(-moveForce, 0));
-      }
-    } else if (isRightKeyDown) {
-      sprite.setFlipX(false);
-      if (!(isInAir && this.touching.right)) {
-        sprite.applyForce(new Phaser.Math.Vector2(moveForce, 0));
+    if (isOnWall && !this.moveTimer?.hasDispatched) {
+      this.canMove = false;
+      this.moveTimer?.destroy();
+      this.moveTimer = this.scene.time.addEvent({
+        delay: 100,
+        callback: () => (this.canMove = true),
+      });
+    }
+    if (this.canMove) {
+      if (isLeftKeyDown) {
+        sprite.setFlipX(true);
+        if (!(isInAir && this.touching.left)) {
+          sprite.applyForce(new Phaser.Math.Vector2(-moveForce, 0));
+        }
+      } else if (isRightKeyDown) {
+        sprite.setFlipX(false);
+        if (!(isInAir && this.touching.right)) {
+          sprite.applyForce(new Phaser.Math.Vector2(moveForce, 0));
+        }
       }
     }
 
@@ -194,11 +240,11 @@ export default class Player {
       if (isOnGround) {
         //Jump up
         sprite.setVelocityY(-11);
-      } else if (this.touching.left) {
+      } else if (this.touching.wallLeft) {
         // Jump right from the wall
         sprite.setVelocityY(-11);
         sprite.setVelocityX(3.5);
-      } else if (this.touching.right) {
+      } else if (this.touching.wallRight) {
         // Jump left from the wall
         sprite.setVelocityY(-11);
         sprite.setVelocityX(-3.5);
@@ -244,6 +290,7 @@ export default class Player {
     this.scene.matterCollision.removeOnCollideActive({ objectA: sensors });
 
     this.jumpTimer?.destroy();
+    this.moveTimer?.destroy();
     this.sprite.destroy();
   }
 }

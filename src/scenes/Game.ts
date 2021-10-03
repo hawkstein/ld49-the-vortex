@@ -4,7 +4,7 @@ import { getCurrentLevel, setCurrentLevel } from "data";
 import Player from "@components/Player";
 import Ghost from "@components/Ghost";
 
-const MAX_LEVEL = 4;
+const MAX_LEVEL = 5;
 const SPAWN = "Spawn";
 
 export default class Game extends Phaser.Scene {
@@ -31,7 +31,7 @@ export default class Game extends Phaser.Scene {
     this.matter.world.convertTilemapLayer(layer);
     this.matter.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     this.matter.world.createDebugGraphic();
-    this.matter.world.drawDebug = false;
+    this.matter.world.drawDebug = true;
 
     this.cameras.main.fadeIn(1000, 0, 0, 0);
 
@@ -89,6 +89,11 @@ export default class Game extends Phaser.Scene {
           const cam = this.cameras.main;
           cam.fade(250, 0, 0, 0);
           cam.once("camerafadeoutcomplete", () => this.scene.restart());
+          return;
+        }
+
+        if (tile.properties.switch) {
+          console.log("Switch");
         }
       },
     });

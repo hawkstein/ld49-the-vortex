@@ -28,6 +28,11 @@
         "url": "levels/level_04.json"
       },
       {
+        "type": "tilemapTiledJSON",
+        "key": "level_05",
+        "url": "levels/level_05.json"
+      },
+      {
         "type": "image",
         "key": "tilemap",
         "url": "assets/tilemap.png"
