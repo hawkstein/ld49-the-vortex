@@ -124,7 +124,7 @@ export default class Game extends Phaser.Scene {
         switchY: number;
       };
     }[] = [];
-    map.getObjectLayer("Switches").objects.forEach((switchObject) => {
+    map.getObjectLayer("Switches")?.objects.forEach((switchObject) => {
       const { x = 0, y = 0, width = 100, properties } = switchObject;
       const switchSensor = this.matter.add.circle(x, y, width, {
         isSensor: true,
