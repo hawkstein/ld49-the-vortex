@@ -81,6 +81,11 @@
         "type": "audio",
         "key": "ghost_death_02",
         "url": "assets/audio/ghost_death_02.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "ghost_alert_01",
+        "url": "assets/audio/ghost_alert_01.mp3"
       }
     ]
   }

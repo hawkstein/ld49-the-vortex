@@ -1,7 +1,11 @@
 import Phaser from "phaser";
 
 export default class MegaGhost {
-  private scene: Phaser.Scene & { matterCollision: any; player: any };
+  private scene: Phaser.Scene & {
+    matterCollision: any;
+    player: any;
+    ghostDeathSounds: Phaser.Sound.BaseSound[];
+  };
   public sprite: Phaser.GameObjects.Sprite;
   public sensor: MatterJS.BodyType;
   private destroyTimer: Phaser.Time.TimerEvent;
@@ -10,7 +14,11 @@ export default class MegaGhost {
   private lastUpdate: number = 0;
 
   constructor(
-    scene: Phaser.Scene & { matterCollision: any; player: any },
+    scene: Phaser.Scene & {
+      matterCollision: any;
+      player: any;
+      ghostDeathSounds: Phaser.Sound.BaseSound[];
+    },
     x: number,
     y: number
   ) {
@@ -38,6 +46,7 @@ export default class MegaGhost {
         callback: () => {
           unsubscribeGhostCollide();
           this.scene.player.disableInput();
+          Phaser.Math.RND.pick(this.scene.ghostDeathSounds).play();
           const cam = this.scene.cameras.main;
           cam.fade(250, 0, 0, 0);
           cam.once("camerafadeoutcomplete", () => this.scene.scene.restart());

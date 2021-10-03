@@ -7,6 +7,8 @@ export default class Ghost {
 
   private acc: { x: number; y: number } = { x: 0, y: 0 };
   private lastUpdate: number = 0;
+  private hasPlayedAlert: boolean = false;
+  private alertSounds: Phaser.Sound.BaseSound[] = [];
 
   constructor(
     scene: Phaser.Scene & { matterCollision: any; player: any },
@@ -22,12 +24,20 @@ export default class Ghost {
       ignoreGravity: true,
     });
 
+    this.alertSounds = [
+      this.scene.sound.add("ghost_alert_01", { volume: 0.4 }),
+    ];
+
     this.scene.events.on("update", (time: number) => {
       if (time > this.lastUpdate + 1000) {
         const { x, y } = this.scene.player.sprite;
         if (
           Phaser.Math.Distance.Between(x, y, this.sprite.x, this.sprite.y) < 400
         ) {
+          if (!this.hasPlayedAlert) {
+            Phaser.Math.RND.pick(this.alertSounds).play();
+            this.hasPlayedAlert = true;
+          }
           const difference = new Phaser.Math.Vector2(
             x - this.sprite.x,
             y - this.sprite.y
