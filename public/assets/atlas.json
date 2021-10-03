@@ -5,10 +5,31 @@
 			"format": "RGBA8888",
 			"size": {
 				"w": 63,
-				"h": 162
+				"h": 228
 			},
 			"scale": 1,
 			"frames": [
+				{
+					"filename": "Rift.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 64,
+						"h": 64
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 0,
+						"w": 60,
+						"h": 64
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 60,
+						"h": 64
+					}
+				},
 				{
 					"filename": "Exit.png",
 					"rotated": false,
@@ -25,7 +46,7 @@
 					},
 					"frame": {
 						"x": 1,
-						"y": 1,
+						"y": 67,
 						"w": 59,
 						"h": 61
 					}
@@ -46,7 +67,7 @@
 					},
 					"frame": {
 						"x": 1,
-						"y": 64,
+						"y": 130,
 						"w": 31,
 						"h": 54
 					}
@@ -67,7 +88,7 @@
 					},
 					"frame": {
 						"x": 34,
-						"y": 64,
+						"y": 130,
 						"w": 28,
 						"h": 31
 					}
@@ -88,7 +109,7 @@
 					},
 					"frame": {
 						"x": 34,
-						"y": 97,
+						"y": 163,
 						"w": 28,
 						"h": 31
 					}
@@ -109,7 +130,7 @@
 					},
 					"frame": {
 						"x": 1,
-						"y": 120,
+						"y": 186,
 						"w": 28,
 						"h": 31
 					}
@@ -130,9 +151,30 @@
 					},
 					"frame": {
 						"x": 31,
-						"y": 130,
+						"y": 196,
 						"w": 28,
 						"h": 31
+					}
+				},
+				{
+					"filename": "VortexParticle.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 5,
+						"h": 5
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 5,
+						"h": 5
+					},
+					"frame": {
+						"x": 1,
+						"y": 219,
+						"w": 5,
+						"h": 5
 					}
 				}
 			]
@@ -141,6 +183,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:3e4a475a20942986f33bf7ce7f99d219:ad290fb3c95610424c28f5208e66d2dd:cbce6b53f0f49e0bf15173c25c41f876$"
+		"smartupdate": "$TexturePacker:SmartUpdate:a1629e0b1f407240291af29ebae7f043:0bb445ff4c42bda99ddfd4fd18714a64:cbce6b53f0f49e0bf15173c25c41f876$"
 	}
 }

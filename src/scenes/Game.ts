@@ -3,6 +3,7 @@ import Scenes from "@scenes";
 import { getCurrentLevel, setCurrentLevel } from "data";
 import Player from "@components/Player";
 import Ghost from "@components/Ghost";
+import Vortex from "@components/Vortex";
 
 const MAX_LEVEL = 5;
 const SPAWN = "Spawn";
@@ -31,7 +32,14 @@ export default class Game extends Phaser.Scene {
     this.matter.world.convertTilemapLayer(layer);
     this.matter.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     this.matter.world.createDebugGraphic();
-    this.matter.world.drawDebug = true;
+    this.matter.world.drawDebug = false;
+
+    layer.forEachTile((tile) => {
+      if (tile.properties.switch) {
+        //@ts-ignore
+        tile.physics.matterBody.body.isSensor = true;
+      }
+    });
 
     this.cameras.main.fadeIn(1000, 0, 0, 0);
 
@@ -99,9 +107,18 @@ export default class Game extends Phaser.Scene {
     });
 
     map.getObjectLayer(SPAWN).objects.forEach((spawnObject) => {
-      const { x = 0, y = 0, width, height, type } = spawnObject;
+      const {
+        x = 0,
+        y = 0,
+        width = 100,
+        height = 100,
+        type,
+        rotation = 0,
+      } = spawnObject;
       if (type === "Ghost") {
         this.ghosts.push(new Ghost(this, x, y));
+      } else if (type === "Vortex") {
+        const vortex = new Vortex(this, x, y, width, height, rotation);
       }
     });
 

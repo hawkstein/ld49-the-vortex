@@ -52,8 +52,8 @@
                  "type":"Ghost",
                  "visible":true,
                  "width":0,
-                 "x":599.77942056792,
-                 "y":432.671625318092
+                 "x":608.253996839107,
+                 "y":493.688574470634
                 }, 
                 {
                  "height":0,
@@ -64,7 +64,7 @@
                  "type":"Ghost",
                  "visible":true,
                  "width":0,
-                 "x":1137.59638768833,
+                 "x":1073.18960802731,
                  "y":638.497143030254
                 }, 
                 {
@@ -77,12 +77,12 @@
                          "type":"string",
                          "value":"1,2"
                         }],
-                 "rotation":20,
+                 "rotation":-20,
                  "type":"Vortex",
                  "visible":true,
                  "width":58.8116492305206,
-                 "x":976.273377226643,
-                 "y":460.411196833219
+                 "x":866.103885701219,
+                 "y":462.106112087456
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -106,18 +106,9 @@
          "margin":0,
          "name":"tilemap",
          "spacing":0,
-         "tilecount":8,
+         "tilecount":12,
          "tileheight":32,
          "tiles":[
-                {
-                 "id":0,
-                 "properties":[
-                        {
-                         "name":"switch",
-                         "type":"int",
-                         "value":1
-                        }]
-                }, 
                 {
                  "id":1,
                  "objectgroup":
@@ -246,7 +237,13 @@
                      "visible":true,
                      "x":0,
                      "y":0
-                    }
+                    },
+                 "properties":[
+                        {
+                         "name":"switch",
+                         "type":"int",
+                         "value":1
+                        }]
                 }, 
                 {
                  "id":6,
