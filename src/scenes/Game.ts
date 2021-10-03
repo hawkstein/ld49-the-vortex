@@ -12,6 +12,8 @@ export default class Game extends Phaser.Scene {
   public matterCollision: any;
   public player!: Player;
   private ghosts: Ghost[] = [];
+  private switches: boolean[] = [];
+  private vortexes: Map<string, Vortex> = new Map();
 
   constructor() {
     super(Scenes.GAME);
@@ -33,13 +35,6 @@ export default class Game extends Phaser.Scene {
     this.matter.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     this.matter.world.createDebugGraphic();
     this.matter.world.drawDebug = false;
-
-    layer.forEachTile((tile) => {
-      if (tile.properties.switch) {
-        //@ts-ignore
-        tile.physics.matterBody.body.isSensor = true;
-      }
-    });
 
     this.cameras.main.fadeIn(1000, 0, 0, 0);
 
@@ -99,10 +94,6 @@ export default class Game extends Phaser.Scene {
           cam.once("camerafadeoutcomplete", () => this.scene.restart());
           return;
         }
-
-        if (tile.properties.switch) {
-          console.log("Switch");
-        }
       },
     });
 
@@ -113,13 +104,57 @@ export default class Game extends Phaser.Scene {
         width = 100,
         height = 100,
         type,
+        name,
         rotation = 0,
       } = spawnObject;
       if (type === "Ghost") {
         this.ghosts.push(new Ghost(this, x, y));
       } else if (type === "Vortex") {
         const vortex = new Vortex(this, x, y, width, height, rotation);
+        this.vortexes.set(name, vortex);
       }
+    });
+
+    const switchSensors: {
+      sensor: MatterJS.BodyType;
+      id: number;
+      properties: {
+        vortex: number;
+        switchX: number;
+        switchY: number;
+      };
+    }[] = [];
+    map.getObjectLayer("Switches").objects.forEach((switchObject) => {
+      const { x = 0, y = 0, width = 100, properties } = switchObject;
+      const switchSensor = this.matter.add.circle(x, y, width, {
+        isSensor: true,
+        isStatic: true,
+      });
+      switchSensors.push({
+        sensor: switchSensor,
+        id: switchSensor.id,
+        properties: {
+          switchX: properties[0].value,
+          switchY: properties[1].value,
+          vortex: properties[2].value,
+        },
+      });
+      this.switches[properties[2].value] = false;
+    });
+
+    this.matterCollision.addOnCollideStart({
+      objectA: this.player.sprite,
+      objectB: switchSensors.map((s) => s.sensor),
+      callback: ({ bodyB }: { bodyB: any }) => {
+        const sensorSwitch = switchSensors.find((s) => s.id === bodyB.id);
+        if (sensorSwitch) {
+          const properties = sensorSwitch.properties;
+          this.switches[properties.vortex] = true;
+          map.putTileAt(5, properties.switchX, properties.switchY);
+          const vortex = this.vortexes.get(`Vortex_0${properties.vortex}`);
+          vortex?.explode();
+        }
+      },
     });
 
     const unsubscribeGhostCollide = this.matterCollision.addOnCollideStart({

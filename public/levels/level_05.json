@@ -89,9 +89,48 @@
          "visible":true,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":3,
+         "name":"Switches",
+         "objects":[
+                {
+                 "ellipse":true,
+                 "height":22,
+                 "id":6,
+                 "name":"Switch_01",
+                 "properties":[
+                        {
+                         "name":"switchX",
+                         "type":"int",
+                         "value":23
+                        }, 
+                        {
+                         "name":"switchY",
+                         "type":"int",
+                         "value":20
+                        }, 
+                        {
+                         "name":"vortex",
+                         "type":"int",
+                         "value":1
+                        }],
+                 "rotation":0,
+                 "type":"Switch",
+                 "visible":true,
+                 "width":21,
+                 "x":741,
+                 "y":652.5
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":3,
- "nextobjectid":6,
+ "nextlayerid":4,
+ "nextobjectid":7,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.2",
@@ -196,7 +235,7 @@
                      "name":"",
                      "objects":[
                             {
-                             "height":18,
+                             "height":1.66663877499791,
                              "id":1,
                              "name":"",
                              "rotation":0,
@@ -204,7 +243,7 @@
                              "visible":true,
                              "width":20,
                              "x":6,
-                             "y":14
+                             "y":30.3333612250021
                             }],
                      "opacity":1,
                      "type":"objectgroup",
@@ -222,7 +261,7 @@
                      "name":"",
                      "objects":[
                             {
-                             "height":20,
+                             "height":2.3813906786043,
                              "id":1,
                              "name":"",
                              "rotation":0,
@@ -230,7 +269,7 @@
                              "visible":true,
                              "width":21,
                              "x":5,
-                             "y":12
+                             "y":29.6186093213957
                             }],
                      "opacity":1,
                      "type":"objectgroup",
